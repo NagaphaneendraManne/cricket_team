@@ -75,4 +75,63 @@ app.post('/players/', async (request,response) =>{
   response.send({ playerId: playerId });
 });
 })
+
+
+// GET player by Player Id
+app.get("/players/", async (request, response) => {
+const getPlayersQuery = `
+ SELECT
+ *
+ FROM
+ cricket_team
+ ORDER BY player_id;`;
+const playersArray = await db.all(getPlayersQuery);
+const convertDbObjectToResponseObject = (dbObject) => {
+  return {
+    playerId: dbObject.player_id,
+    playerName: dbObject.player_name,
+    jerseyNumber: dbObject.jersey_number,
+    role: dbObject.role,
+  };
+};
+ response.send(
+ playersArray.map((eachPlayer) =>
+convertDbObjectToResponseObject(eachPlayer)
+)
+);
+});
+
+
+//Update Player Details
+app.put("/players/:playerId/", async (request, response) => {
+  const { playerId } = request.params;
+  const playerDetails = request.body;
+  const {
+   playerName,
+        jerseyNumber,
+        role,
+    } = playerDetails
+
+  const updatePlayerQuery = `
+    UPDATE
+      cricket_team
+    SET
+      playerName='${playerName}',
+      jerseyNumber=${jerseyNumber},
+      role=${role},
+    WHERE
+      player_id = ${playerId};`;
+  await db.run(updatePlayerQuery);
+  response.send("Player Details updated");
+});
+
+
+//Delete Player Details
+app.delete("/players/:playerId/",async(request,response) =>{
+    const {playerId} = request.params;
+    const deletePlayerQuery = `
+    DELETE FROM cricket_team WHERE player_id = ${playerId};`;
+    await db.run(deletePlayerQuery);
+    response.send("Player Removed");
+})
 module.exports = app;
