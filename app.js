@@ -35,7 +35,7 @@ const getPlayersQuery = `
  *
  FROM
  cricket_team;`;
-const playersArray = await database.all(getPlayersQuery);
+const playersArray = await db.all(getPlayersQuery);
 const convertDbObjectToResponseObject = (dbObject) => {
   return {
     playerId: dbObject.player_id,
