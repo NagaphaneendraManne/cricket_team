@@ -50,4 +50,29 @@ convertDbObjectToResponseObject(eachPlayer)
 )
 );
 });
+
+
+//Adding new player
+app.post('/players/', async (request,response) =>{
+    const playerDetails = request.body;
+    const {
+        playerName,
+        jerseyNumber,
+        role,
+    } = playerDetails
+    const addPlayerQuery =`
+    INSERT cricket_team( playerName,
+        jerseyNumber,
+        role)
+          VALUES
+      (
+          ${playerName},
+          ${jerseyNumber},
+          ${role}
+          );`;
+  const dbResponse = await db.run(addPlayerQuery);
+  const playerId = dbResponse.lastID;
+  response.send({ playerId: playerId });
+});
+})
 module.exports = app;
