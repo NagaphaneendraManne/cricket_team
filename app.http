@@ -4,6 +4,7 @@ GET http://localhost:3000/players/
 
 POST http://localhost:3000/players/
 Content-Type: application/json
+
 {
   "playerName": "Vishal",
   "jerseyNumber": 17,
@@ -11,10 +12,10 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/players/
+GET http://localhost:3000/players/1/
 ###
 
-PUT http://localhost:3000/players/playerId/
+PUT http://localhost:3000/players/1/
 Content-Type: application/json
 
 {
@@ -24,5 +25,5 @@ Content-Type: application/json
 }
 ###
 
-DELETE http://localhost:3000/players/playerId/
+DELETE http://localhost:3000/players/1/
 ###
